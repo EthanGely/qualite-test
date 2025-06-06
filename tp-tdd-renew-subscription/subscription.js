@@ -22,4 +22,13 @@ function canRenewSubscription(subscription, currentDate) {
     return true;
 }
 
-module.exports = { canRenewSubscription };
+function getRenewalReason(subscription, currentDate) {
+    if (subscription.hasBeenRenewed) return 'alreadyRenewed';
+    if (subscription.unpaidDebt) return 'unpaidDebt';
+    if (subscription.isTrial) return 'trial';
+    if (subscription.status !== 'active') return 'expired';
+    const now = currentDate ? new Date(currentDate) : new Date();
+    if (new Date(subscription.endDate) < now) return 'expired';
+    return 'OK';
+}
+module.exports = { canRenewSubscription, getRenewalReason };
