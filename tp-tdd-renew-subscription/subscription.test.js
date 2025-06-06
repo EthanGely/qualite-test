@@ -35,4 +35,16 @@ describe("canRenewSubscription", () => {
     };
     expect(canRenewSubscription(subscription)).toBe(false);
   });
+
+  // should not allow renewal if the subscription is expired
+  test("should not allow renewal if the subscription is expired", () => {
+    const subscription = {
+      status: 'expired',
+      endDate: '2023-01-01',
+      hasBeenRenewed: false,
+      unpaidDebt: false,
+      isTrial: false,
+    };
+    expect(canRenewSubscription(subscription)).toBe(false);
+  });
 });
