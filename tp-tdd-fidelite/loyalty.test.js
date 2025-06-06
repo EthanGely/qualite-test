@@ -225,3 +225,101 @@ describe("Bonus points", () => {
         );
     });
 });
+describe("Invalid prices", () => {
+    test("should ignore products with price 0", () => {
+        expect(
+            calculateLoyaltyPoints([
+                { type: "standard", price: 0 },
+                { type: "premium", price: 0 },
+                { type: "standard", price: 10 }
+            ])
+        ).toBe(1);
+    });
+
+    test("should ignore products with negative prices", () => {
+        expect(
+            calculateLoyaltyPoints([
+                { type: "standard", price: -10 },
+                { type: "premium", price: -20 },
+                { type: "standard", price: 20 }
+            ])
+        ).toBe(2);
+    });
+
+    test("should ignore products with null price", () => {
+        expect(
+            calculateLoyaltyPoints([
+                { type: "standard", price: null },
+                { type: "premium", price: null },
+                { type: "standard", price: 20 }
+            ])
+        ).toBe(2);
+    });
+
+    test("should ignore products with undefined price", () => {
+        expect(
+            calculateLoyaltyPoints([
+                { type: "standard", price: undefined },
+                { type: "premium", price: undefined },
+                { type: "standard", price: 20 }
+            ])
+        ).toBe(2);
+    });
+
+    test("should ignore products with price as a string", () => {
+        expect(
+            calculateLoyaltyPoints([
+                { type: "standard", price: "10" },
+                { type: "premium", price: "20" },
+                { type: "standard", price: 20 }
+            ])
+        ).toBe(2);
+    });
+
+    test("should ignore products with price as an array", () => {
+        expect(
+            calculateLoyaltyPoints([
+                { type: "standard", price: [10] },
+                { type: "premium", price: [20] },
+                { type: "standard", price: 20 }
+            ])
+        ).toBe(2);
+    });
+
+    test("should ignore products with price as an object", () => {
+        expect(
+            calculateLoyaltyPoints([
+                { type: "standard", price: { amount: 10 } },
+                { type: "premium", price: { amount: 20 } },
+                { type: "standard", price: 20 }
+            ])
+        ).toBe(2);
+    });
+
+    test("should return 0 if all products have invalid prices", () => {
+        expect(
+            calculateLoyaltyPoints([
+                { type: "standard", price: null },
+                { type: "premium", price: undefined },
+                { type: "standard", price: "10" },
+                { type: "premium", price: [20] },
+                { type: "standard", price: { amount: 10 } }
+            ])
+        ).toBe(0);
+    });
+
+    test("should handle mix of valid and invalid prices", () => {
+        expect(
+            calculateLoyaltyPoints([
+                { type: "standard", price: 10 },      // 1
+                { type: "premium", price: "20" },     // invalid
+                { type: "standard", price: undefined },// invalid
+                { type: "premium", price: 20 },       // 4
+                { type: "standard", price: null },    // invalid
+                { type: "premium", price: [30] },     // invalid
+                { type: "standard", price: 30 }       // 3
+            ])
+        ).toBe(8);
+    });
+});
+
