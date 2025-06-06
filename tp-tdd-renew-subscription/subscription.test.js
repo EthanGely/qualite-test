@@ -1,4 +1,4 @@
-const { canRenewSubscription } = require("./subscription.js");
+const { canRenewSubscription, getRenewalReason } = require("./subscription.js");
 
 describe("canRenewSubscription", () => {
   test("should not allow renewal if already renewed", () => {
@@ -123,3 +123,56 @@ describe("canRenewSubscription with invalid inputs", () => {
   });
 }
 );
+
+// check renewal reason
+describe("getRenewalReason", () => {
+  test("should return 'alreadyRenewed' if hasBeenRenewed is true", () => {
+    const subscription = {
+      hasBeenRenewed: true,
+      unpaidDebt: false,
+      isTrial: false,
+      status: 'active',
+    };
+    expect(getRenewalReason(subscription)).toBe('alreadyRenewed');
+  });
+
+  test("should return 'unpaidDebt' if unpaidDebt is true", () => {
+    const subscription = {
+      hasBeenRenewed: false,
+      unpaidDebt: true,
+      isTrial: false,
+      status: 'active',
+    };
+    expect(getRenewalReason(subscription)).toBe('unpaidDebt');
+  });
+
+  test("should return 'trial' if isTrial is true", () => {
+    const subscription = {
+      hasBeenRenewed: false,
+      unpaidDebt: false,
+      isTrial: true,
+      status: 'active',
+    };
+    expect(getRenewalReason(subscription)).toBe('trial');
+  });
+
+  test("should return 'expired' if status is not active", () => {
+    const subscription = {
+      hasBeenRenewed: false,
+      unpaidDebt: false,
+      isTrial: false,
+      status: 'expired',
+    };
+    expect(getRenewalReason(subscription)).toBe('expired');
+  });
+
+  test("should return 'OK' if all conditions are met", () => {
+    const subscription = {
+      hasBeenRenewed: false,
+      unpaidDebt: false,
+      isTrial: false,
+      status: 'active',
+    };
+    expect(getRenewalReason(subscription)).toBe('OK');
+  });
+});
