@@ -129,6 +129,7 @@ describe("getRenewalReason", () => {
   test("should return 'alreadyRenewed' if hasBeenRenewed is true", () => {
     const subscription = {
       hasBeenRenewed: true,
+      endDate: '2099-12-31',
       unpaidDebt: false,
       isTrial: false,
       status: 'active',
@@ -139,6 +140,7 @@ describe("getRenewalReason", () => {
   test("should return 'unpaidDebt' if unpaidDebt is true", () => {
     const subscription = {
       hasBeenRenewed: false,
+      endDate: '2099-12-31',
       unpaidDebt: true,
       isTrial: false,
       status: 'active',
@@ -149,6 +151,7 @@ describe("getRenewalReason", () => {
   test("should return 'trial' if isTrial is true", () => {
     const subscription = {
       hasBeenRenewed: false,
+      endDate: '2099-12-31',
       unpaidDebt: false,
       isTrial: true,
       status: 'active',
@@ -159,6 +162,7 @@ describe("getRenewalReason", () => {
   test("should return 'expired' if status is not active", () => {
     const subscription = {
       hasBeenRenewed: false,
+      endDate: '2099-12-31',
       unpaidDebt: false,
       isTrial: false,
       status: 'expired',
@@ -169,6 +173,7 @@ describe("getRenewalReason", () => {
   test("should return 'OK' if all conditions are met", () => {
     const subscription = {
       hasBeenRenewed: false,
+      endDate: '2099-12-31',
       unpaidDebt: false,
       isTrial: false,
       status: 'active',
