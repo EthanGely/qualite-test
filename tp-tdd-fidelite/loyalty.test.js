@@ -167,14 +167,16 @@ describe("Bonus points", () => {
         );
     });
 
-    test("should not add bonus points for negative or zero total", () => {
+    test("should not add bonus points for zero total", () => {
         expect(
             calculateLoyaltyPoints([
                 { type: "standard", price: 0 },
                 { type: "premium", price: 0 },
             ])
         ).toBe(0);
+    });
 
+    test("should not add bonus points for negative total", () => {
         expect(
             calculateLoyaltyPoints([
                 { type: "standard", price: -10 },
