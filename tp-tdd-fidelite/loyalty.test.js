@@ -1,4 +1,4 @@
-const { calculateLoyaltyPoints } = require("./loyalty.js");
+const { calculateLoyaltyPoints, analyseLoyalty } = require("./loyalty.js");
 
 describe("Standard Product", () => {
   test("should return 1 point for every 10€ spent", () => {
@@ -323,3 +323,64 @@ describe("Invalid prices", () => {
     });
 });
 
+describe("analyzeLoyalty", () => {
+    test("should return totalPoints and bonusApplied=false for total <= 200€", () => {
+        expect(
+            analyzeLoyalty([
+                { type: "standard", price: 100 }, // 10
+                { type: "premium", price: 90 }    // 18
+            ])
+        ).toEqual({ totalPoints: 28, bonusApplied: false });
+    });
+
+    test("should return totalPoints and bonusApplied=true for total > 200€", () => {
+        expect(
+            analyzeLoyalty([
+                { type: "standard", price: 150 }, // 15
+                { type: "premium", price: 100 }   // 20
+            ])
+        ).toEqual({ totalPoints: 45, bonusApplied: true }); // 35+10
+    });
+
+    test("should return bonusApplied=false for total exactly 200€", () => {
+        expect(
+            analyzeLoyalty([
+                { type: "standard", price: 100 }, // 10
+                { type: "premium", price: 100 }   // 20
+            ])
+        ).toEqual({ totalPoints: 30, bonusApplied: false });
+    });
+
+    test("should return 0 and bonusApplied=false for empty cart", () => {
+        expect(analyzeLoyalty([])).toEqual({ totalPoints: 0, bonusApplied: false });
+    });
+
+    test("should ignore invalid prices", () => {
+        expect(
+            analyzeLoyalty([
+                { type: "standard", price: null },
+                { type: "premium", price: undefined },
+                { type: "standard", price: "10" },
+                { type: "premium", price: [20] },
+                { type: "standard", price: 20 } // 2
+            ])
+        ).toEqual({ totalPoints: 2, bonusApplied: false });
+    });
+
+    test("should handle floating point prices and bonus", () => {
+        expect(
+            analyzeLoyalty([
+                { type: "standard", price: 199.99 }, // 19
+                { type: "premium", price: 10.01 }    // 2
+            ])
+        ).toEqual({ totalPoints: 21, bonusApplied: false });
+    });
+
+    test("should apply bonus only once even if total is much higher", () => {
+        expect(
+            analyzeLoyalty([
+                { type: "premium", price: 500 } // 100
+            ])
+        ).toEqual({ totalPoints: 110, bonusApplied: true });
+    });
+});
