@@ -181,3 +181,21 @@ describe("getRenewalReason", () => {
     expect(getRenewalReason(subscription)).toBe('OK');
   });
 });
+
+// massive calls
+describe("massive calls", () => {
+  test("should handle massive calls without performance issues", () => {
+    const subscription = {
+      hasBeenRenewed: false,
+      endDate: '2099-12-31',
+      unpaidDebt: false,
+      isTrial: false,
+      status: 'active',
+    };
+    
+    for (let i = 0; i < 10000; i++) {
+      expect(canRenewSubscription(subscription)).toBe(true);
+      expect(getRenewalReason(subscription)).toBe('OK');
+    }
+  });
+});
