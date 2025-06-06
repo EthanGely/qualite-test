@@ -16,7 +16,7 @@ const POINTS_DIVISOR = 10;   // Points per this amount spent
  */
 function getPointsAndTotal(cart) {
     if (!Array.isArray(cart)) {
-        throw new TypeError('Cart must be an array');
+        return { points: 0, total: 0 };
     }
     return cart.reduce(
         (acc, item) => {
