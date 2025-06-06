@@ -477,4 +477,23 @@ describe("Invalid products", () => {
             ])
         ).toBe(15);
     });
+    test("should return 0 if cart is null", () => {
+        expect(calculateLoyaltyPoints(null)).toBe(0);
+    });
+
+    test("should return 0 if cart is undefined", () => {
+        expect(calculateLoyaltyPoints(undefined)).toBe(0);
+    });
+
+    test("should return 0 if cart is an object", () => {
+        expect(calculateLoyaltyPoints({})).toBe(0);
+    });
+
+    test("should return 0 if cart is a number", () => {
+        expect(calculateLoyaltyPoints(42)).toBe(0);
+    });
+
+    test("should return 0 if cart is a string", () => {
+        expect(calculateLoyaltyPoints("not an array")).toBe(0);
+    });
 });
