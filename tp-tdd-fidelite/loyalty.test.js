@@ -110,3 +110,116 @@ describe("Mixed type products", () => {
         ).toBe(10);
     });
 });
+
+describe("Bonus points", () => {
+    test("should add 10 bonus points if total is more than 200€", () => {
+        expect(
+            calculateLoyaltyPoints([
+                { type: "standard", price: 100 },
+                { type: "premium", price: 110 },
+            ])
+        ).toBe(
+            // 100/10 = 10, 10*1 = 10 (standard)
+            // 110/10 = 11, 11*2 = 22 (premium)
+            // total = 32 + 10 bonus = 42
+            42
+        );
+    });
+
+    test("should not add bonus points if total is exactly 200€", () => {
+        expect(
+            calculateLoyaltyPoints([
+                { type: "standard", price: 100 },
+                { type: "premium", price: 100 },
+            ])
+        ).toBe(
+            // 100/10 = 10, 10*1 = 10 (standard)
+            // 100/10 = 10, 10*2 = 20 (premium)
+            // total = 30, no bonus
+            30
+        );
+    });
+
+    test("should not add bonus points if total is less than 200€", () => {
+        expect(
+            calculateLoyaltyPoints([
+                { type: "standard", price: 50 },
+                { type: "premium", price: 100 },
+            ])
+        ).toBe(
+            // 50/10 = 5, 5*1 = 5 (standard)
+            // 100/10 = 10, 10*2 = 20 (premium)
+            // total = 25, no bonus
+            25
+        );
+    });
+    test("should add only 10 bonus points even if total is more than 400€", () => {
+        expect(
+            calculateLoyaltyPoints([
+                { type: "standard", price: 200 },
+                { type: "premium", price: 210 },
+            ])
+        ).toBe(
+            // 200/10 = 20, 20*1 = 20 (standard)
+            // 210/10 = 21, 21*2 = 42 (premium)
+            // total = 62 + 10 bonus = 72
+            72
+        );
+    });
+
+    test("should not add bonus points for negative or zero total", () => {
+        expect(
+            calculateLoyaltyPoints([
+                { type: "standard", price: 0 },
+                { type: "premium", price: 0 },
+            ])
+        ).toBe(0);
+
+        expect(
+            calculateLoyaltyPoints([
+                { type: "standard", price: -10 },
+                { type: "premium", price: -20 },
+            ])
+        ).toBe(0);
+    });
+
+    test("should handle cart with only one expensive product (bonus applies)", () => {
+        expect(
+            calculateLoyaltyPoints([
+                { type: "premium", price: 250 }
+            ])
+        ).toBe(
+            // 250/10 = 25, 25*2 = 50 + 10 bonus = 60
+            60
+        );
+    });
+
+    test("should handle cart with only one expensive product (no bonus)", () => {
+        expect(
+            calculateLoyaltyPoints([
+                { type: "standard", price: 199.99 }
+            ])
+        ).toBe(
+            // 199.99/10 = 19, 19*1 = 19, no bonus
+            19
+        );
+    });
+
+    test("should handle cart with mixed products and floating point prices", () => {
+        expect(
+            calculateLoyaltyPoints([
+                { type: "standard", price: 19.99 }, // 1 point
+                { type: "premium", price: 29.99 },  // 4 points
+                { type: "standard", price: 39.99 }, // 3 points
+                { type: "premium", price: 49.99 },  // 8 points
+            ])
+        ).toBe(
+            // standard: 19.99/10 = 1, 1*1 = 1
+            // premium: 29.99/10 = 2, 2*2 = 4
+            // standard: 39.99/10 = 3, 3*1 = 3
+            // premium: 49.99/10 = 4, 4*2 = 8
+            // total = 1+4+3+8 = 16, no bonus
+            16
+        );
+    });
+});
