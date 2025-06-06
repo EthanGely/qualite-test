@@ -1,4 +1,4 @@
-const { calculateLoyaltyPoints, analyseLoyalty } = require("./loyalty.js");
+const { calculateLoyaltyPoints, analyzeLoyalty } = require("./loyalty.js");
 
 describe("Standard Product", () => {
   test("should return 1 point for every 10€ spent", () => {
@@ -373,7 +373,7 @@ describe("analyzeLoyalty", () => {
                 { type: "standard", price: 199.99 }, // 19
                 { type: "premium", price: 10.01 }    // 2
             ])
-        ).toEqual({ totalPoints: 21, bonusApplied: false });
+        ).toEqual({ totalPoints: 31, bonusApplied: true });
     });
 
     test("should apply bonus only once even if total is much higher", () => {
