@@ -47,4 +47,16 @@ describe("canRenewSubscription", () => {
     };
     expect(canRenewSubscription(subscription)).toBe(false);
   });
+
+  // should not allow renewal if end date is in the past
+  test("should not allow renewal if end date is in the past", () => {
+    const subscription = {
+      status: 'active',
+      endDate: '2023-01-01',
+      hasBeenRenewed: false,
+      unpaidDebt: false,
+      isTrial: false,
+    };
+    expect(canRenewSubscription(subscription)).toBe(false);
+  });
 });
