@@ -23,12 +23,11 @@ function getPointsAndTotal(cart) {
             if (
                 !item ||
                 typeof item.price !== 'number' ||
-                item.price < 0 ||
-                typeof item.type !== 'string'
+                item.price < 0
             ) {
                 return acc;
             }
-            const rate = item.type === 'premium' ? 2 : 1;
+            const rate = (item.type ?? '') === 'premium' ? 2 : 1;
             acc.points += rate * Math.floor(item.price / POINTS_DIVISOR);
             acc.total += item.price;
             return acc;

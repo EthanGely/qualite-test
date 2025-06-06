@@ -411,13 +411,13 @@ describe("Invalid products", () => {
         ).toBe(1);
     });
 
-    test("should ignore products with missing type", () => {
+    test("should not ignore products with missing type", () => {
         expect(
             calculateLoyaltyPoints([
                 { price: 20 },
                 { type: "premium", price: 10 }
             ])
-        ).toBe(2);
+        ).toBe(4);
     });
 
     test("should treat products with invalid type as standard", () => {
