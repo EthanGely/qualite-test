@@ -85,4 +85,16 @@ describe("canRenewSubscription", () => {
     expect(canRenewSubscription(subscription, null)).toBe(true);
   }
   );
+
+  //test with same date as end date
+  test("should allow renewal if current date is the same as end date", () => {
+    const subscription = {
+      status: 'active',
+      endDate: '2099-12-31',
+      hasBeenRenewed: false,
+      unpaidDebt: false,
+      isTrial: false,
+    };
+    expect(canRenewSubscription(subscription, '2099-12-31')).toBe(true);
+  });
 });
