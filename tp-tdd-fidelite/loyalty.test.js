@@ -401,3 +401,80 @@ describe("Performance", () => {
         expect(calculateLoyaltyPoints(products)).toBe(total);
     });
 });
+describe("Invalid products", () => {
+    test("should ignore empty product objects", () => {
+        expect(
+            calculateLoyaltyPoints([
+                {},
+                { type: "standard", price: 10 }
+            ])
+        ).toBe(1);
+    });
+
+    test("should ignore products with missing type", () => {
+        expect(
+            calculateLoyaltyPoints([
+                { price: 20 },
+                { type: "premium", price: 10 }
+            ])
+        ).toBe(2);
+    });
+
+    test("should treat products with invalid type as standard", () => {
+        expect(
+            calculateLoyaltyPoints([
+                { type: "gold", price: 100 },      // treated as standard: 10 points
+                { type: "standard", price: 20 }    // 2 points
+            ])
+        ).toBe(12);
+    });
+
+    test("should treat products with type as null or undefined as standard", () => {
+        expect(
+            calculateLoyaltyPoints([
+                { type: null, price: 20 },         // treated as standard: 2 points
+                { type: undefined, price: 30 },    // treated as standard: 3 points
+                { type: "premium", price: 10 }     // 2 points
+            ])
+        ).toBe(7);
+    });
+
+    test("should ignore products that are not objects", () => {
+        expect(
+            calculateLoyaltyPoints([
+                null,
+                undefined,
+                42,
+                "product",
+                [],
+                { type: "standard", price: 10 }
+            ])
+        ).toBe(1);
+    });
+
+    test("should return 0 if all products are invalid", () => {
+        expect(
+            calculateLoyaltyPoints([
+                null,
+                undefined,
+                42,
+                "product",
+                [],
+                {},
+                { type: "gold", price: 5 } // price < 10, treated as standard, 0 points
+            ])
+        ).toBe(0);
+    });
+
+    test("should handle mix of valid and invalid products", () => {
+        expect(
+            calculateLoyaltyPoints([
+                { type: "standard", price: 10 }, // 1
+                {},
+                { type: "gold", price: 100 },    // treated as standard: 10
+                null,
+                { type: "premium", price: 20 }   // 4
+            ])
+        ).toBe(15);
+    });
+});
