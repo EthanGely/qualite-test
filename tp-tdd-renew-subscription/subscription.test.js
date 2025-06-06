@@ -23,4 +23,16 @@ describe("canRenewSubscription", () => {
     };
     expect(canRenewSubscription(subscription)).toBe(false);
   });
+
+  // should not allow renewal if the subscription is in trial period
+  test("should not allow renewal if the subscription is in trial period", () => {
+    const subscription = {
+      status: 'active',
+      endDate: '2099-12-31',
+      hasBeenRenewed: false,
+      unpaidDebt: false,
+      isTrial: true,
+    };
+    expect(canRenewSubscription(subscription)).toBe(false);
+  });
 });
