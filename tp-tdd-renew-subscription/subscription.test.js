@@ -98,3 +98,28 @@ describe("canRenewSubscription", () => {
     expect(canRenewSubscription(subscription, '2099-12-31')).toBe(true);
   });
 });
+
+describe("canRenewSubscription with invalid inputs", () => {
+  // should return false if subscription is null
+  test("should return false if subscription is null", () => {
+    expect(canRenewSubscription(null)).toBe(false);
+  });
+
+  // should return false if subscription is undefined
+  test("should return false if subscription is undefined", () => {
+    expect(canRenewSubscription(undefined)).toBe(false);
+  });
+
+  // should return false if endDate is not a valid date
+  test("should return false if endDate is not a valid date", () => {
+    const subscription = {
+      status: 'active',
+      endDate: 'invalid-date',
+      hasBeenRenewed: false,
+      unpaidDebt: false,
+      isTrial: false,
+    };
+    expect(canRenewSubscription(subscription)).toBe(false);
+  });
+}
+);
