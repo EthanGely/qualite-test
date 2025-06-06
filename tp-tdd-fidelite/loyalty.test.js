@@ -386,14 +386,18 @@ describe("analyzeLoyalty", () => {
 });
 
 describe("Performance", () => {
-    test("should calculate points efficiently for 1000 products", () => {
+    test("should calculate points efficiently for 1 000 000 products", () => {
         const products = [];
-        for (let i = 0; i < 500; i++) {
+        let total = 0;
+        const productsCount = 1000000;
+        for (let i = 0; i < productsCount / 2; i++) {
             products.push({ type: "standard", price: 20 }); // 2 points each
             products.push({ type: "premium", price: 30 });  // 6 points each
+            total += 8;
         }
-        // 500 * 2 = 1000 (standard), 500 * 6 = 3000 (premium)
-        // total price = 500*20 + 500*30 = 10000 + 15000 = 25000 (> 200), so +10 bonus
-        expect(calculateLoyaltyPoints(products)).toBe(1000 + 3000 + 10);
+        if (total > 200) {
+            total += 10; // bonus
+        }
+        expect(calculateLoyaltyPoints(products)).toBe(total);
     });
 });
