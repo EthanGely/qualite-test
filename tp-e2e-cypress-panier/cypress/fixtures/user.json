@@ -1,0 +1,5 @@
+[
+  { "name": "Alice", "email": "alice@example.com", "cgu": true, "valid": true },
+  { "name": "Charlie", "email": "notanemail", "cgu": true, "valid": false },
+  { "name": "David", "email": "david@example.com", "cgu": false, "valid": false }
+]
