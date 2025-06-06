@@ -1,6 +1,7 @@
 function calculateLoyaltyPoints(cart) {
     return cart.reduce((points, item) => {
-        return points + Math.floor(item.price / 10);
+        const rate = item.type === 'premium' ? 2 : 1;
+        return points + rate * Math.floor(item.price / 10);
     }, 0);
 }
 
