@@ -59,4 +59,17 @@ describe("canRenewSubscription", () => {
     };
     expect(canRenewSubscription(subscription)).toBe(false);
   });
+
+    // should allow renewal if all conditions are met
+    test("should allow renewal if all conditions are met", () => {
+    const subscription = {
+      status: 'active',
+      endDate: '2099-12-31',
+      hasBeenRenewed: false,
+      unpaidDebt: false,
+      isTrial: false,
+    };
+    expect(canRenewSubscription(subscription)).toBe(true);
+  }
+  );
 });
