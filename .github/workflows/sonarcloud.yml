@@ -57,8 +57,6 @@ jobs:
             # mandatory
             -Dsonar.projectKey=EthanGely_qualite-test
             -Dsonar.organization=ethangely
-            -Dsonar.sources=./tp6-mock-react/src
-            -Dsonar.tests=./tp6-mock-react/tests
             -Dsonar.sourceEncoding=UTF-8
             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
             -Dsonar.qualitygate.wait=true
