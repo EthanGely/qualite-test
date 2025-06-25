@@ -7,7 +7,17 @@ function App() {
   useEffect(() => {
     fetch('/api/products')
       .then(res => res.json())
-      .then(setProducts);
+      .then(data => {
+        // Filter out invalid products
+        const validProducts = (data || []).filter(p => 
+          p && typeof p === 'object' && p.id && p.name && p.price !== undefined
+        );
+        setProducts(validProducts);
+      })
+      .catch(error => {
+        console.error('Failed to fetch products:', error);
+        setProducts([]);
+      });
   }, []);
 
   return (
