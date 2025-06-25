@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 
 function App() {
   const [products, setProducts] = useState([]);
-  const [productsaaa, setProductsaaa] = useState([]);
 
   useEffect(() => {
     fetch('/api/products')
