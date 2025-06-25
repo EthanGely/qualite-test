@@ -2,4 +2,5 @@
   cd ./tp6-mock-react || exit 1
   npm install # optional
   npm run lint
+  npx playwright install 
   npm test
