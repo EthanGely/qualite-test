@@ -21,10 +21,8 @@ jobs:
         run: npm install
       - name: Lancer le linter
         run: npm run lint
-      - name: Installer Playwright
-        run: npx playwright install 
       - name: Exécuter les tests Playwright
-        run: npm test
+        run: npx playwright install --with-deps && npx start-server-and-test 'npm run dev' http://localhost:5173 'npx test'
       - name: Enregistrer les résultats en cas d'échec
         if: failure()
         uses: actions/upload-artifact@v4
