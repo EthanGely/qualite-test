@@ -1,12 +1,111 @@
-# React + Vite
+# Test & Qualité
+![CI](https://github.com/EthanGely/qualite-test/workflows/CI/badge.svg)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Objectif du projet
 
-Currently, two official plugins are available:
+Application  dédiée au cours de test & qualité logicielle
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Instructions pour lancer l'app
 
-## Expanding the ESLint configuration
+### Prérequis
+- Node.js (version 18 ou supérieure)
+- npm ou yarn
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Installation
+```bash
+# Cloner le projet
+git clone [https://github.com/EthanGely/qualite-test]
+cd tp6-mock-react
+
+# Installer les dépendances
+npm install
+# ou
+yarn install
+```
+
+### Lancement en développement
+```bash
+npm run dev
+# ou
+yarn dev
+```
+
+L'application sera accessible à l'adresse : `http://localhost:5173`
+
+### Lancement en production
+```bash
+npm run build
+npm start
+# ou
+yarn build
+yarn start
+```
+
+## Scripts disponibles
+
+| Script | Description |
+|--------|-------------|
+| `npm run dev` | Lance l'application en mode développement avec Vite |
+| `npm run build` | Compile l'application pour la production |
+| `npm run lint` | Vérifie la qualité du code avec ESLint |
+| `npm run preview` | Prévisualise la version de production localement |
+| `npm run format` | Formate le code avec Prettier |
+| `npm test` | Lance les tests Playwright |
+| `npm run prepare` | Configure Husky pour les hooks Git |
+
+## Structure du code
+
+```
+.
+├── src/                    # Code source principal
+|   └── mocks/              # Données de test et mocks
+│       ├── browser.js      # Utilise le handler
+│       └── handlers.js     # Handler qui renvoie les mock data
+|
+└── tests/                  # Tests de l'application
+    └── producs.spec.js     # Tests E2E Playwright
+
+```
+
+
+#### `src/`
+Contient tout le code source de l'application :
+- **components/** : Composants React réutilisables organisés par fonctionnalité
+- **pages/** : Composants représentant les différentes pages/routes
+- **hooks/** : Hooks React personnalisés pour la logique métier
+- **services/** : Fonctions pour les appels API et la logique métier
+- **utils/** : Fonctions utilitaires et helpers
+- **styles/** : Fichiers CSS/SCSS et thèmes
+- **types/** : Définitions TypeScript pour les interfaces et types
+
+#### `mocks/`
+Données et services mockés pour le développement et les tests :
+- **handlers/** : Gestionnaires d'API mockés avec MSW (Mock Service Worker)
+- **data/** : Jeux de données fictives
+- **server.js** : Configuration du serveur de développement avec mocks
+
+#### `tests/`
+Organisation complète des tests :
+- **unit/** : Tests unitaires pour les composants et fonctions
+- **integration/** : Tests d'intégration entre composants
+- **e2e/** : Tests end-to-end avec Playwright
+- **utils/** : Fonctions utilitaires partagées pour les tests
+
+## Technologies utilisées
+
+- **Frontend :** React
+- **Tests :** Playwright
+- **Linting :** ESLint
+- **Bundler :** Vite
+- **Mocking :** MSW (Mock Service Worker)
+
+## Contribution
+
+1. Fork le projet
+2. Créer une branche pour votre fonctionnalité (`git checkout -b feature/nouvelle-fonctionnalite`)
+3. Commit vos changements (`git commit -am 'Ajout de la nouvelle fonctionnalité'`)
+4. Push vers la branche (`git push origin feature/nouvelle-fonctionnalite`)
+5. Ouvrir une Pull Request
+
+## Autheur
+Ethan
