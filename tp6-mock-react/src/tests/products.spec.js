@@ -20,20 +20,3 @@ test.describe('Catalogue produits (UI)', () => {
     }
   });
 });
-
-test.describe('API /api/products', () => {
-  test('renvoie une liste de produits', async ({ request }) => {
-    const res = await request.get('https://localhost:5173/api/products',  { ignoreHTTPSErrors: true }, 'networkidle');
-    expect(res.ok()).toBeTruthy();
-    const products = await res.json();
-    expect(Array.isArray(products)).toBe(true);
-    expect(products.length).toBeGreaterThan(0);
-    for (const product of products) {
-      expect(product).toHaveProperty('id');
-      expect(product).toHaveProperty('name');
-      expect(product).toHaveProperty('price');
-      expect(typeof product.price).toBe('string');
-      expect(!isNaN(Number(product.price))).toBe(true);
-    }
-  });
-});

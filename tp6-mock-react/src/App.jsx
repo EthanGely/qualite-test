@@ -5,7 +5,6 @@ function App() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    console.log('Fetching products from API');
     fetch('/api/products')
       .then(res => res.json())
       .then(setProducts);
