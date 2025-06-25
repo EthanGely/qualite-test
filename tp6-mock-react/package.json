@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "format": "prettier --write .",
     "test": "playwright test",
-    "prepare": "husky"
+    "prepare": "husky && husky install"
   },
   "dependencies": {
     "@faker-js/faker": "^9.8.0",
@@ -37,5 +37,8 @@
     "workerDirectory": [
       "public"
     ]
+  },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix"
   }
 }
