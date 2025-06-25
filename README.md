@@ -1,4 +1,4 @@
-# Test & Qualité
+# Test & Qualité - TP06
 ![CI](https://github.com/EthanGely/qualite-test/workflows/CI/badge.svg)
 
 ## Objectif du projet
