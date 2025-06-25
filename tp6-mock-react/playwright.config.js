@@ -6,7 +6,7 @@ export default defineConfig({
     timeout: 30000, // en ms : 30 secondes
   },
   use: {
-    headless: false,
+    headless: true,
     viewport: { width: 1280, height: 720 },
     ignoreHTTPSErrors: true,
     video: 'on-first-retry',
