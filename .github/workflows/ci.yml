@@ -15,7 +15,7 @@ jobs:
         with:
           node-version: 18
       - name: Installer les dépendances
-        run: npm ci
+        run: npm i
       - name: Lancer le linter
         run: npm run lint
       - name: Exécuter les tests Playwright
